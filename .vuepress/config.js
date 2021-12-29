@@ -1,13 +1,13 @@
 module.exports = {
-  "title": "",
-  "description": "",
+  "title": "Selven's Blog",
+  "description": "该网站用于记录 Selven 学习知识总结",
   "dest": "public",
   "head": [
     [
       "link",
       {
         "rel": "icon",
-        "href": "/favicon.ico"
+        "href": "/J.png"
       }
     ],
     [
@@ -34,12 +34,7 @@ module.exports = {
       {
         "text": "Docs",
         "icon": "reco-message",
-        "items": [
-          {
-            "text": "vuepress-reco",
-            "link": "/docs/theme-reco/"
-          }
-        ]
+        "link": "/docs/theme-reco/"
       },
       {
         "text": "Contact",
@@ -47,9 +42,9 @@ module.exports = {
         "items": [
           {
             "text": "GitHub",
-            "link": "https://github.com/recoluan",
+            "link": "https://github.com/dyj7/dyj7.github.io",
             "icon": "reco-github"
-          }
+          },
         ]
       }
     ],
@@ -65,19 +60,19 @@ module.exports = {
     "blogConfig": {
       "category": {
         "location": 2,
-        "text": "Category"
+        "text": "Frontend"
       },
       "tag": {
-        "location": 3,
+        "location": 4,
         "text": "Tag"
       }
     },
     "friendLink": [
       {
-        "title": "午后南杂",
-        "desc": "Enjoy when you can, and endure when you must.",
-        "email": "1156743527@qq.com",
-        "link": "https://www.recoluan.com"
+        "title": "vuepress",
+        "desc": "Vue 驱动的静态网站生成器",
+        "email": "706709149@qq.com",
+        "link": "https://vuepress.vuejs.org/zh/"
       },
       {
         "title": "vuepress-theme-reco",
@@ -88,12 +83,18 @@ module.exports = {
     ],
     "logo": "/logo.png",
     "search": true,
-    "searchMaxSuggestions": 10,
     "lastUpdated": "Last Updated",
-    "author": "",
-    "authorAvatar": "/avatar.png",
-    "record": "xxxx",
-    "startYear": "2017"
+    "author": "Selven Du",
+    "authorAvatar": "/logo.png",
+    "startYear": "2017",
+    "valineConfig": {
+      "appId": "Tsu6j0Gsu4QIBYak9kvMYuh0-gzGzoHsz",
+      "appKey": "ATFynweji70cvGwG1lulQeCk",
+      "placeholder": "尽情留下你想说的话吧",
+      "avatar": "selven",
+      "highlight": true,
+      "recordIP": true,
+    },
   },
   "markdown": {
     "lineNumbers": true

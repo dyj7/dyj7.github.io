@@ -1,7 +1,7 @@
 ---
 home: true
-heroText: vuepress-theme-reco
-tagline: A simple and beautiful vuepress blog theme.
+heroText: Selven's Blog
+tagline: 该网站用于记录Selven学习知识总结
 # heroImage: /hero.png
 # heroImageStyle: {
 #   maxWidth: '600px',
