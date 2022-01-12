@@ -2,8 +2,10 @@
 title: Redux
 date: 2020-05-27
 tags:
- - Angular
+ - docs
  - Redux
+categories:
+ - docs
 ---
 
 # 状态管理JS库，集中式管理应用中多个组件共享的状态

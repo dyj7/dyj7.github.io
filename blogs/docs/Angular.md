@@ -3,8 +3,12 @@ title: Angular
 date: 2021-12-29
 tags:
  - Angular
- - Docs
+ - docs
+categories:
+ - docs
 ---
+
+## Angular
 
 1.声明属性的几种方式
 public 共有（默认） 可以在类内、类外使用
@@ -44,7 +48,7 @@ protected 保护类型 在当前类和子类中使用
 ```
 
 6.管道
- `<div>{{date | date:'yyyy-MM-dd HH:mm:ss'}}</div>`
+ <!-- `<div>{{date | date:'yyyy-MM-dd HH:mm:ss'}}</div>` -->
  7.事件
  `<button (click)='clickFunc()'></button>`
  8.表单事件、事件参数
@@ -62,6 +66,8 @@ protected 保护类型 在当前类和子类中使用
  @ViewChild('header') header:any;
  console.log(this.header.run())//调用子组件的方法
  12.组件传值
+
+ ```js
  （1.）父组件给子组件传值（属性和方法均可）
   父组件调用子组件时传入数据 <app-child [smg]='msg'></app-child>（传整个父组件[father]='this'）
   子组件引入input import {Input} from '@angular/core'
@@ -72,6 +78,7 @@ protected 保护类型 在当前类和子类中使用
   子组件 this.outer.emit(' msg from child')  //guan会触发父组件的方法
   父组件 <app-child (outer)="runParse($event)">
   13.生命周期
+```
 
   ```js
   ngOnChanges(): void {

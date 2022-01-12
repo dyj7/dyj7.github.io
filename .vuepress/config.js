@@ -27,12 +27,7 @@ module.exports = {
         "icon": "reco-home"
       },
       {
-        "text": "TimeLine",
-        "link": "/timeline/",
-        "icon": "reco-date"
-      },
-      {
-        "text": "Docs",
+        "text": "Essay",
         "icon": "reco-message",
         "link": "/docs/"
       },
@@ -56,16 +51,13 @@ module.exports = {
     "sidebar": {
       "/docs/": [
         "",
-        "Redux",
-        "Angular",
-        "Linux"
-      ]
+      ],
     },
     "type": "blog",
     "blogConfig": {
       "category": {
         "location": 2,
-        "text": "Frontend"
+        "text": "Notes"
       },
       "tag": {
         "location": 4,
