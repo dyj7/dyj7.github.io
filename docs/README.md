@@ -5,8 +5,9 @@ tags:
  - essay
 ---
 
+
 From [Marie-Claire Kuja](https://www.worldpulse.com/community/users/kujamac12/posts/74996)
-<img src="./imgs/pic-readme.png" />
+
 <p style="text-align:center"> Do you think you are going No Where in Life?</p>
 <p style="text-align:center">Take a deep breathe</p>
 <p style="text-align:center">THINK!</p>
@@ -38,3 +39,4 @@ From [Marie-Claire Kuja](https://www.worldpulse.com/community/users/kujamac12/po
 <p style="text-align:center">Even when mighty lions and tigers underestimated him, he continued to do what he could, where he was ,just as he was, with the little he had.</p>
 <p style="text-align:center">You’re ok just the way you are.The little work you are doing today might seem insignificant but I bet someday you will see the big picture.</p>
 <p style="text-align:center">You’re Not late ! You’re Not early!</p>
+<div style="text-align:center" ><img src="./imgs/pic-readme.png" /></div>
