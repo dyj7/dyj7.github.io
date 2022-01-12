@@ -34,7 +34,7 @@ module.exports = {
       {
         "text": "Docs",
         "icon": "reco-message",
-        "link": "/docs/theme-reco/"
+        "link": "/docs/"
       },
       {
         "text": "Contact",
@@ -45,15 +45,20 @@ module.exports = {
             "link": "https://github.com/dyj7/dyj7.github.io",
             "icon": "reco-github"
           },
+          {
+            "text": "dyj706709149@gmail.com",
+            "link": "https://www.google.com/intl/zh-CN/gmail/about/",
+            "icon": "reco-mail"
+          },
         ]
       }
     ],
     "sidebar": {
-      "/docs/theme-reco/": [
+      "/docs/": [
         "",
-        "theme",
-        "plugin",
-        "api"
+        "Redux",
+        "Angular",
+        "Linux"
       ]
     },
     "type": "blog",

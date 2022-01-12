@@ -1,6 +1,9 @@
 ---
 title: React
 date: 2021-12-29
+tags:
+ - React
+ - Docs
 ---
 
 ```js
