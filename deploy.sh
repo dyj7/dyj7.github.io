@@ -16,7 +16,7 @@ printf $(pwd)
 
 git init
 git add .
-git commit -m 'myBlog: update' --no-verify
+git commit -m 'blogs: update' --no-verify
 git push -f git@github.com:dyj7/dyj7.github.io.git master
 
 
