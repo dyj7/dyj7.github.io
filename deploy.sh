@@ -8,7 +8,6 @@ yarn build
 
 # 进入生成的文件夹
 cd public
-
 printf $(pwd)
 
 # 如果是发布到自定义域名
@@ -16,8 +15,7 @@ printf $(pwd)
 
 git init
 git add .
-git commit -m 'blogs: update' --no-verify
+git commit -m "blogs: update at `date +%Y-%m-%d`" --no-verify
 git push -f git@github.com:dyj7/dyj7.github.io.git master
-
 
 # cd -
