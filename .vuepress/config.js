@@ -51,6 +51,7 @@ module.exports = {
     "sidebar": {
       "/docs/": [
         "",
+        "Stray-Birds.md"
       ],
     },
     "type": "blog",
