@@ -365,3 +365,17 @@ p {
   border-color: tomato transparent transparent transparent;
 }
 ```
+
+## CSS 中不同属性设置为百分比%时对应的计算基准
+
+- 元素的 position 为 relative 和 absolute 时，top和bottom、left和right基准分别为包含块的 height、width
+- 元素的 position 为 fixed 时，top和bottom、left和right基准分别为初始包含块（也就是视口）的 height、width，移动设备较为复杂，基准为 Layout viewport 的 height、width
+- 元素的 height 和 width 设置为百分比时，基准分别为包含块的 height 和 width
+- 元素的 margin 和 padding 设置为百分比时，基准为包含块的 width（易错）
+- 元素的 border-width，不支持百分比
+- 元素的 text-indent，基准为包含块的 width
+- 元素的 border-radius，基准为分别为自身的height、width
+- 元素的 background-size，基准为分别为自身的height、width
+- 元素的 translateX、translateY，基准为分别为自身的height、width
+- 元素的 line-height，基准为自身的 font-size
+- 元素的 font-size，基准为父元素字体
