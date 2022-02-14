@@ -233,3 +233,135 @@ categories:
 - initial是初始值的意思，也就是该元素元素都除了unicode-bidi和direction以外的CSS属性都使用属性的默认初始值。
 - inherit是继承的意思，也就是该元素除了unicode-bidi和direction以外的CSS属性都继承父元素的属性值。
 - unset是取消设置的意思，也就是当前元素浏览器或用户设置的CSS忽略，然后如果是具有继承特性的CSS，如color，则使用继承值；如果是没有继承特性的CSS属性，如background-color，则使用初始值。
+
+## 什么是响应式设计
+
+- 响应式网站设计是一个网站能够兼容多个终端，而不是为每一个终端做一个特定的版本。基本原理是通过媒体查询检测不同的设备屏幕尺寸做处理。页面头部必须有meta声明的viewport。
+
+## 怎么让 Chrome 支持小于 12px 的文字
+
+- 使用css3的transform缩放属性-webkit-transform:scale(0.5);注意-webkit-transform:scale(0.75);收缩的是整个元素的大小，这时候，如果是内联元素，必须要将内联元素转换成块元素.
+- 使用图片
+
+## 设备像素、css 像素、设备独立像素、dpr、ppi 之间的区别
+
+- 设备像素指的是物理像素，一般手机的分辨率指的就是设备像素，一个设备的设备像素是不可变的。
+- css像素和设备独立像素是等价的，不管在何种分辨率的设备上，css像素的大小应该是一致的，css像素是一个相对单位，它是相对于设备像素的，一个css像素的大小取决于页面缩放程度和dpr的大小。
+- dpr指的是设备像素和设备独立像素的比值，一般的pc屏幕，dpr=1。在iphone4时，苹果推出了retina屏幕，它的dpr为2。屏幕的缩放会改变dpr的值。
+- ppi指的是每英寸的物理像素的密度，ppi越大，屏幕的分辨率越大。
+
+## 去除 inline-block 元素间间距
+
+- 移除空格、使用margin负值、使用font-size:0、letter-spacing、word-spacing
+
+## overflow:scroll 时不能平滑滚动的问题怎么处理？
+
+- `-webkit-overflow-scrolling:touch` 这行代码会启用硬件加速特性，使滑动流畅。
+
+## 有一个高度自适应的 div，里面有两个 div，一个高度 100px，希望另一个填满剩下的高度。
+
+- 外层div使用`position：relative`；高度要求自适应的div使用`position:absolute;top:100px;bottom:0;left:0;right:0`;
+- 使用flex布局，设置主轴为竖轴`flex-direction: column;`，第二个div的`flex-grow为1`。
+
+## 什么是 Cookie 隔离？（或者说：请求资源的时候不要让它带 cookie 怎么做）
+
+- 网站向服务器请求的时候，会自动带上cookie这样增加表头信息量，使请求变慢。
+- 如果静态文件都放在主域名下，那静态文件请求的时候都带有的cookie的数据提交给server的，非常浪费流量，所以不如隔离开，静态资源放CDN。
+- 因为cookie有域的限制，因此不能跨域提交请求，故使用非主要域名的时候，请求头中就不会带有cookie数据，这样可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。
+- 同时这种方式不会将cookie传入WebServer，也减少了WebServer对cookie的处理分析环节，提高了webserver的http请求的解析速度。
+
+## 画一条 0.5px 的线
+
+```css
+.line{
+    height: 1px;
+    transform: scaleY(0.5);
+    transform-origin: 50% 100%;
+}
+```
+
+## animation、transition、transform的区别
+
+- transform用于元素旋转、缩放、移动、倾斜等效果 `scale()、rotate()、translate()`
+
+- transition用于较为单一的动画,transition关注的是CSS property的变化，property值和时间的关系是一个三次贝塞尔曲线。
+    - transition需要事件触发，所以没法在网页加载时自动发生。
+    - transition是一次性的，不能重复发生，除非一再触发。
+    - transition只能定义开始状态和结束状态，不能定义中间状态，也就是说只有两个状态。
+    - 一条transition规则，只能定义一个属性的变化，不能涉及多个属性。
+
+    ```css
+    img:hover{}
+    img{
+        transition: 1s 1s height ease;
+    }
+    /* 等价于 */
+    img{
+        transition-property: height;
+        transition-duration: 1s;
+        transition-delay: 1s;
+        transition-timing-function: ease;
+    }
+    ```
+
+- animation一般用于较为复杂、有中间态的动画，animation作用于元素本身而不是样式属性，可以使用关键帧的概念，应该说可以实现更自由的动画效果。
+
+```css
+div:hover {animation: 1s rainbow;}
+@keyframes rainbow {
+    0% { background: #c00; }
+    50% { background: orange; }
+    100% { background: yellowgreen; }
+}
+```
+
+## 替换元素
+
+- 通过修改某个属性值呈现的内容就可以被替换的元素就称为“替换元素” `<img>、<video>、<iframe>、<textarea>、<input>、<select>`
+
+## margin:auto 的填充规则
+
+- 触发margin: auto计算有一个前提条件，就是width或height为auto时，元素是具有对应方向的自动填充特性的。
+- 如果一侧定值，一侧auto，则auto为剩余空间大小。
+- 如果两侧均是auto，则平分剩余空间。
+
+## border 的特殊性
+
+- border-width却不支持百分比。
+- border-style的默认值是none
+- border-color默认颜色就是color色值。
+- border-style:double的表现规则：双线宽度永远相等，中间间隔±1。
+
+## 实现单行／多行文本溢出的省略（...）？
+
+```css
+/*单行文本溢出*/
+p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* 不换行 */
+}
+```
+
+## 常见的元素隐藏方式？
+
+- 使用 display:none;隐藏元素，渲染树不会包含该渲染对象，因此该元素不会在页面中占据位置，也不会响应绑定的监听事件。
+- 使用 visibility:hidden;隐藏元素。元素在页面中仍占据空间，但是不会响应绑定的监听事件。
+- 使用 opacity:0;将元素的透明度设置为 0，以此来实现元素的隐藏。元素在页面中仍然占据空间，并且能够响应元素绑定的监听事件。
+- 通过使用绝对定位将元素移除可视区域内，以此来实现元素的隐藏。
+- 通过 z-index 负值，来使其他元素遮盖住该元素，以此来实现隐藏。
+- 通过 clip/clip-path 元素裁剪的方法来实现元素的隐藏，这种方法下，元素仍在页面中占据位置，但是不会响应绑定的监听事件。
+- 通过 transform:scale(0,0)来将元素缩放为 0，以此来实现元素的隐藏。这种方法下，元素仍在页面中占据位置，但是不会响应绑定的监听事件。
+
+## 实现一个三角形
+
+```css
+/*三角形的实现原理是利用了元素边框连接处的等分原理。*/
+.triangle {
+  width: 0;
+  height: 0;
+  border-width: 100px;
+  border-style: solid;
+  border-color: tomato transparent transparent transparent;
+}
+```
