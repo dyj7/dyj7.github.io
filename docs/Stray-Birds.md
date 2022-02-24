@@ -1,5 +1,5 @@
 ---
-title: Stray-Birds
+title: Stray Birds
 date: 2022-02-10
 tags:
  - essay

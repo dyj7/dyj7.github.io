@@ -2,7 +2,6 @@
 title: Angular
 date: 2021-12-29
 tags:
- - Angular
  - docs
 categories:
  - docs

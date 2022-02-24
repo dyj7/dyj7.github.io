@@ -3,12 +3,11 @@ title: Redux
 date: 2020-05-27
 tags:
  - docs
- - Redux
 categories:
  - docs
 ---
 
-# 状态管理JS库，集中式管理应用中多个组件共享的状态
+## 状态管理JS库，集中式管理应用中多个组件共享的状态
 
 <img src='./imgs/redux-1.png' />
 <img src='./imgs/redux-2.png' />

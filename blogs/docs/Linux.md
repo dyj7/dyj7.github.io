@@ -2,7 +2,6 @@
 title: Linux
 date: 2021-12-29
 tags:
- - Linux
  - docs
 categories:
  - docs
