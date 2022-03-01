@@ -83,3 +83,7 @@ setInterval(() => {
 
 - 只保留程序运行时需要的数据，对于已经使用的或者不需要的数据，应该将其值设为 null
 - 避免创建对象,使用 array.length = 0 来清空数组
+
+## 参考
+
+- [JavaScript 中的垃圾回收](https://zhuanlan.zhihu.com/p/23992332)
