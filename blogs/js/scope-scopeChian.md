@@ -44,7 +44,7 @@ console.log(inVariable); // Uncaught ReferenceError: inVariable is not defined
 
 ### 变量声明提升
 
-- 在Javascript中，变量进入一个作用域可以通过下面四种方式
+- 在 JavaScript 中，变量进入一个作用域可以通过下面四种方式
     - 语言自定义变量：所有的作用域中都存在 this 和 arguments 这两个默认变量
     - 函数形参：函数的形参存在函数作用域中
     - 函数声明：function foo() {}
