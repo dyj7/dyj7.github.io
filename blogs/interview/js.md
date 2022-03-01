@@ -334,163 +334,92 @@ function getJSON(url) {
 - cookie 是服务器提供的一种用于维护会话状态信息的数据，通过服务器发送到浏览器，浏览器保存在本地，当下一次有同源的请求时，将保存的 cookie 值添加到请求头部，发送给服务端。这可以用来实现记录用户登录状态等功能。cookie 一般可以存储 4k 大小的数据，并且只能够被同源的网页所共享访问。服务器端可以使用 Set-Cookie 的响应头部来配置 cookie 信息。一条cookie 包括了9个属性值 name、value、expires、domain、path、secure、HttpOnly、SameSite、Priority。其中 name 和 value 分别是 cookie 的名字和值。expires 指定了 cookie 失效的时间，domain 是域名、path是路径，domain 和 path 一起限制了 cookie 能够被哪些 url 访问。secure 规定了 cookie 只能在确保安全的情况下传输，HttpOnly 规定了这个 cookie 只能被服务器访问，不能使用 js 脚本访问。SameSite 属性用来限制第三方 cookie，可以有效防止 CSRF 攻击，从而减少安全风险。Priority 是 chrome 的提案，定义了三种优先级，当 cookie 数量超出时低优先级的 cookie 会被优先清除。在发生 xhr 的跨域请求的时候，即使是同源下的 cookie，也不会被自动添加到请求头部，除非显示地规定。
 - 设置cookie => cookie被自动添加到request header中 => 服务端接收到cookie
 
-## 数组原生方法
+## [JavaScript 中的作用域与变量声明提升](https://dyj7.github.io/blogs/js/imgs/scopeAndScopeChian.html)
 
-### 检测数组
-
-- `arr instanceof Array`
-- `Array.isArray(arr)`
-- `Object.prototype.toString.call(arr); // '[object Array]'`
-
-### 转换方法
+- JavaScript是一种函数级作用域（function-level scope），作用域最大的用处就是隔离变量，不同作用域下同名变量不会有冲突。（ES6 之前 JavaScript 没有块级作用域,只有全局作用域和函数作用域。ES6 的到来，提供了‘块级作用域’,可通过新增命令 let 和 const 来体现。）
+- 变量提升的表现是，无论我们在函数中何处位置声明的变量，都被提升到了函数的首部，可以在变量声明前访问到而不会报错。
+- 造成变量声明提升的本质原因是 js 引擎在代码执行前有一个解析的过程，创建了执行上下文，初始化了一些代码执行时需要用到的对象。当访问一个变量时，会到当前执行上下文中的作用域链中去查找，而作用域链的首端指向的是当前执行上下文的变量对象，这个变量对象是执行上下文的一个属性，它包含了函数的形参、所有的函数和变量声明，这个对象的是在代码解析的时候创建的。这就是会出现变量声明提升的根本原因。
+- 块级作用域
+    - 在一个函数内部
+    - 在一个代码块（由一对花括号包裹）内部
+    - 声明变量不会提升到代码块顶部（在声明前使用会出现暂时性死区）
+    - 禁止重复声明
+- 作用域链：当前作用域没有定义的变量称为自由变量，会向父级作用域寻找，父级也没有再一层一层向上寻找，直到找到全局作用域。
 
 ```js
-const colors = ['red','blue','green']
-// valueOf() 方法返回指定对象的原始值。
-colors.valueOf() //['red','blue','green']
-// arr.toString() 与 arr.join()输出相同，不过join里可以输入其它链接符
-colors.toString() //"red,blue,green"
+var x = 10;
+function fn() {
+  // 在 fn 函数中，取自由变量 x 的值时,要到创建 fn 函数的作用域中取，无论 fn 函数将在哪里调用。
+    console.log(x);
+}
+function show(f) {
+    var x = 20(function() {
+        f(); //10，而不是20
+    })();
+}
+show(fn);
 ```
 
-### push、pop、unshift、shift
+## 如何判断当前脚本运行在浏览器还是 node 环境
+
+`typeof window === 'undefined' ? 'node' : 'browser';`通过判断当前环境的 window 对象类型是否为 undefined，如果是undefined，则说明当前脚本运行在node环境，否则说明运行在window环境。
+
+## 节流与防抖
+
+- 函数防抖是指在事件被触发 n 秒后再执行回调，如果在这 n 秒内事件又被触发，则重新计时。这可以使用在一些点击请求的事件上，避免因为用户的多次点击向后端发送多次请求。
+- 函数节流是指规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。
 
 ```js
-// arr.push(item) 接受任意数量的参数，添加到数组末尾，返回新数组的长度
-const colors = ['red']
-colors.push('blue','green'); //3
+// 函数防抖的实现
+function debounce(fn, wait) {
+  var timer = null;
+  return function() {
+    var context = this,
+      args = arguments;
+    // 如果此时存在定时器的话，则取消之前的定时器重新记时
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    // 设置定时器，使事件间隔指定事件后执行
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, wait);
+  };
+}
 
-// arr.pop() 删除数组最后一项，返回删除的项
-const colors = ['blue','green']
-colors.pop() //green
-
-// arr.unshift() 接受任意数量的参数，添加到数组头部，返回新数组的长度
-const colors = ['red']
-colors.unshift('blue','green') //3, colors:['blue', 'green', 'red']
-
-// arr.shift() 删除数组第一项，返回删除的项
-const colors = ['blue','green']
-colors.shift() //blue, colors:['green']
+// 函数节流的实现;
+function throttle(fn, delay) {
+  var preTime = Date.now();
+  return function() {
+    var context = this,
+      args = arguments,
+      nowTime = Date.now();
+    // 如果两次时间间隔超过了指定时间，则执行函数。
+    if (nowTime - preTime >= delay) {
+      preTime = Date.now();
+      return fn.apply(context, args);
+    }
+  };
+}
 ```
 
-### reverse、sort、concat、slice、 splice
+## Object.is() 与原来的比较操作符 “===”、“==” 的区别
+
+- 使用双等号进行相等判断时，如果两边的类型不一致，则会进行强制类型转化后再进行比较。
+- 使用三等号进行相等判断时，如果两边的类型不一致时，不会做强制类型准换，直接返回 false。
+- 使用 Object.is 来进行相等判断时，一般情况下和三等号的判断相同，它处理了一些特殊的情况，比如 -0 和 +0 不再相等，两个 NaN 认定为是相等的。
 
 ```js
-// arr.reverse() 反转数组的顺序，并返回重新排序之后的数组， 原数组会被改变
-const arr1 = [1,2,3,'red','blue']
-arr1.reverse() //["blue", "red", 3, 2, 1]
-
-// arr.sort() 如果不传参数，默认情况下数组内的元素会被转换为字符串进行比较，返回值为排序后的新数组。原数组会被改变
-const b = [1,2,3]
-//升序
-b.sort((a,b)=>a-b) //[1, 2, 3]
-//降序
-b.sort((a,b)=>b-a) //[3, 2, 1]
-
-// arr.concat() 传递一个元素（数组）或多个元素（数组）,会将其合并到arr中，返回新数组，原数组不变
-const colors = ['red','blue','green']
-colors.concat('gray',['a','green'])  //["red", "blue", "green", "gray", "a", "green"]
-// js数组复制(浅拷贝)：arr.concat(); [...arr]; Array.from(arr)
-
-// arr.slice 剪切数组，返回剪切之后的数组，元素不会改变
-// 传入一个参数，表示起始位置，结束位置为最末尾,传入2个参数，表示起始位置与结束位置，但不包括结束位置所在的元素
-const colors = ['red','blue','green']
-colors.slice(1) //['blue', 'green']
-colors.slice(1,2) //['blue']
-
-// 替换：arr.splice(index, num, item) [起始位置 | 要删除的项数 | 要插入的任意项数]， 最终返回删除掉的元素组成的数组
-const colors = ["red", "gray", "blue", "green"]
-colors.splice(2,2,'yellow') // ["blue", "green"]
-console.log(colors); //["red", "gray", "yellow"]
-```
-
-### 查找元素
-
-```js
-// arr.indexOf() 验证数组中是否含有某个元素，返回第一个匹配到的元素在数组中所在的位置，如果没有，则返回 -1
-const colors =  ["red", "gray", "yellow"]
-colors.indexOf('gray') // 1
-colors.indexOf('mm') //-1
-
-// arr.lastIndexOf() 验证数组中是否含有某个元素，不过是从数组尾部开始查找，返回第一个匹配到的元素所在的位置，如果没有，则返回-1
-const colors =  ["red", "gray", "yellow","gray"]
-colors.indexOf('gray') // 3
-colors.lastIndexOf('mm') //-1
-```
-
-### 迭代方法
-
-```js
-arr.every() // 检查数组中的项是否满足某个条件，传入的函数对每一项都返回true,则返回true
-const arr = [1,2,3,4,5,4,3,2,1]
-arr.every((item, index, arr)=> item >2 ) //false
-
-arr.some() // 检查数组中的项是否满足某个条件，只要传入的函数对数组中某一项返回true,则返回true
-const arr = [1,2,3,4,5,4,3,2,1]
-arr.some((item, index, arr)=> item >2 ) //true
-
-arr.filter() // 对数组中的每一项运行给定函数，返回该函数会返回true的项组成的新数组
-const arr = [1,2,3,4,5,4,3,2,1]
-arr.filter((item, index, arr)=> item >2 ) //[3, 4, 5, 4, 3]
-
-arr.map() // 对数组中的每一项运行给定函数，返回每次函数调用的结果组成的新数组
-const arr = [1,2,3,4,5,4,3,2,1]
-arr.map((item, index, arr)=> item * 2 ) // [2, 4, 6, 8, 10, 8, 6, 4, 2]
-
-arr.forEach() //对数组中的每一项运行给定函数，这个方法没有返回值
-const arr = [1,2,3,4,5,4,3,2,1]
-arr.forEach((item, index, arr)=> item * 2 ) // undefined
-
-// tips： map、forEach里不可以使用continue、break ,每一项都会执行，如果遍历中要用到continue或break提升效率，则可以使用for()循环 或 for...of..循环
-```
-
-### 归并操作
-
-```js
-arr.reduce() //[前一个值 | 当前值 | 项的索引 | 数组对象本身]
-const arr = [1,2,3,4,5]
-arr.reduce((prev,cur,index,arr)=>prev+cur) //15
-
-arr.reduceRight()
-const arr = [1,2,3,4,5]
-arr.reduceRight((prev,cur,index,arr)=>prev+cur) //15
-```
-
-### ES6数组方法扩展
-
-```js
-// 求一个数组中最大元素
-//ES5的写法
-Math.max.apply(null,[1,3,6]) ///6
-//ES6的写法
-Math.max(...[1,3,6]) //6
-
-// 合并数组
-//ES5写法
-const arr = [4,5]
-[1,2].concat(arr) //[1, 2, 4, 5]
-//ES6写法
-const arr = [4,5]
-[1,2,...arr]
-
-//将字符串转化为数组
-Array.from('hello') //["h", "e", "l", "l", "o"]
-
-Array.of()
-Array.of(2,3,5) //[2,3,5]
-Array.of(2) //[2]
-
-arr.find() arr.findIndex()
-[1,4,9,10,15].find((item, index, arr)=>{
-    return item > 9;
-}) //10
-[1,4,9,10,15].findIndex((item, index, arr)=>{
-    return item > 10;
-}) //4
-
-arr.includes() //数组是否包含某个值，返回true 或 false
-
-for...of...
-for(let item of colors){
-    console.log(item) // red,gray,yellow
+if (!Object.is) {
+  Object.is = function(x, y) {
+    if (x === y) {
+      // +0 != -0
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      // NaN == NaN
+      return x !== x && y !== y;
+    }
+  };
 }
 ```
