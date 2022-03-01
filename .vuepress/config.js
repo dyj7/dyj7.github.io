@@ -37,7 +37,7 @@ module.exports = {
         "items": [
           {
             "text": "GitHub",
-            "link": "https://github.com/dyj7/dyj7.github.io",
+            "link": "https://github.com/dyj7/dyj7.github.io/tree/blogs",
             "icon": "reco-github"
           },
           {

@@ -2,9 +2,9 @@
 title: React
 date: 2021-12-29
 tags:
- - docs
+ - document
 categories:
- - docs
+ - document
 ---
 
 ```js

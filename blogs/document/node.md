@@ -2,9 +2,9 @@
 title: Node
 date: 2021-12-29
 tags:
- - docs
+ - document
 categories:
- - docs
+ - document
 ---
 
 ## Node.js 包运行器 npx

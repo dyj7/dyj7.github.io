@@ -2,9 +2,9 @@
 title: Redux
 date: 2020-05-27
 tags:
- - docs
+ - document
 categories:
- - docs
+ - document
 ---
 
 ## 状态管理JS库，集中式管理应用中多个组件共享的状态

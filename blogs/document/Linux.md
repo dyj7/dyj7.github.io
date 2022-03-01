@@ -2,9 +2,9 @@
 title: Linux
 date: 2021-12-29
 tags:
- - docs
+ - document
 categories:
- - docs
+ - document
 ---
 
 ## 什么是shell?
