@@ -85,7 +85,7 @@ module.exports = {
     "lastUpdated": "Last Updated",
     "author": "Selven Du",
     "authorAvatar": "/logo.png",
-    "startYear": "2017",
+    "startYear": "2020",
     "评论模块暂时注释：valineConfig": {
       "appId": "Tsu6j0Gsu4QIBYak9kvMYuh0-gzGzoHsz",
       "appKey": "ATFynweji70cvGwG1lulQeCk",

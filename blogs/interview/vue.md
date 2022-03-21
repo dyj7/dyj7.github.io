@@ -130,3 +130,123 @@ export default {
     }
   }
 ```
+
+### 父组件获取子组建属性和方法
+
+<!-- 父 -->
+```vue
+<!-- ref的值是组件引用的名称 -->
+<child-component ref="name"></child-component>
+let child = this.$refs.name
+child.属性
+child.方法()
+```
+
+### 非父子组件 eventBus
+
+- 定义一个新的vue实例
+
+```js
+//eventBus.js
+import Vue from 'vue'
+export default new Vue();
+```
+
+- 发送事件（发送数据）
+
+```js
+import bus from '@/bus';
+// 方法内执行下面动作
+bus.$emit('childa-message', this.data);
+```
+
+- 组件内监听（接收数据组件）
+
+```js
+import bus from '@/bus';
+//方法内执行下面动作
+bus.$on('childa-message', function(data) {
+  console.log('I get it');
+});
+```
+
+## computed和watch的区别
+
+### computed 计算属性
+
+- 计算属性基于 data 中声明过或者父组件传递的 props 中的数据通过计算得到的一个新值，这个新值只会根据已知值的变化而变化，简言之：这个属性依赖其他属性，由其他属性计算而来的。
+
+computed 一个重要的特点，就是 computed 带有缓存功能,仅当初始化显示或者相关的 data、props 等属性数据发生变化的时候调用；只有当 computed 属性被使用后，才会执行 computed 的代码，在重复的调用中，只要依赖数据不变，直接取缓存中的计算结果。
+
+```js
+data: {
+    firstName: 'David',
+    lastName: 'Beckham'
+},
+computed: {
+  // 注：计算属性不能在 data 中定义
+    fullName: function() { //方法的返回值作为属性值
+            return this.firstName + ' ' + this.lastName
+    }
+}
+```
+
+- 计算属性的高级：在computed 中的属性都有一个 get 和一个 set 方法，当数据变化时，调用 set 方法。通过计算属性的 getter/setter 方法来实现对属性数据的显示和监视，即双向绑定
+
+```js
+computed: {
+    fullName: {
+        get() { //读取当前属性值的回调，根据相关的数据计算并返回当前属性的值
+            return this.firstName + ' ' + this.lastName
+        },
+        set(val) { // 当属性值发生改变时回调，更新相关的属性数据，val就是fullName的最新属性值
+            const names = val ? val.split(' ') : [];
+            this.firstName = names[0]
+            this.lastName = names[1]
+        }
+    }
+}
+```
+
+### watch 监听属性
+
+- 通过 vm 对象的 $watch() 或 watch 配置来监听 Vue 实例上的属性变化，或某些特定数据的变化，然后执行某些具体的业务逻辑操作。当属性变化时，回调函数自动调用，在函数内部进行计算。其可以监听的数据来源：data，props，computed 内的数据。
+- 当需要在数据变化时执行异步或开销较大的操作时，watch方式是最有用的。 watch 是支持异步的。
+
+```js
+watch: {
+    // 监听 data 中的 firstName，如果发生了变化，就把变化的值给 data 中的 fullName， val 就是 firstName 的最新值
+    firstName: function(newVal,oldVal) {
+        this.fullName = newVal + ' ' + this.lastName
+    },
+    lastName: function(val) {
+        this.fullName = this.firstName + ' ' + val
+    }，
+    fullName: {
+        handler(newVal, oldVal) {
+            console.log(newVal);
+            console.log(oldVal);
+        },
+        deep: true // 开启深度监听
+    }
+}
+```
+
+### 区别
+
+computed:
+
+- 初始化显示或者相关的 data、props 等属性数据发生变化的时候调用；
+- 计算属性不在 data 中，它是基于data 或 props 中的数据通过计算得到的一个新值，这个新值根据已知值的变化而变化；
+- 在 computed 属性对象中定义计算属性的方法，和取data对象里的数据属性一样，以属性访问的形式调用；
+- 如果 computed 属性值是函数，那么默认会走 get 方法，必须要有一个返回值，函数的返回值就是属性的属性值；
+- computed 属性值默认会缓存计算结果，在重复的调用中，只要依赖数据不变，直接取缓存中的计算结果，只有依赖型数据发生改变，computed 才会重新计算；
+- 在computed中的，属性都有一个 get 和一个 set 方法，当数据变化时，调用 set 方法。
+
+watch:
+
+- 主要用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作，可以看作是 computed 和 methods 的结合体；
+- 可以监听的数据来源：data，props，computed内的数据；
+- watch支持异步；
+- 不支持缓存，监听的数据改变，直接会触发相应的操作；
+- 监听函数有两个参数，第一个参数是最新的值，第二个参数是输入之前的值，顺序一定是新值，旧值。-
