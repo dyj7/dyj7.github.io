@@ -379,3 +379,51 @@ p {
 - 元素的 translateX、translateY，基准为分别为自身的height、width
 - 元素的 line-height，基准为自身的 font-size
 - 元素的 font-size，基准为父元素字体
+
+## Less相关
+
+### 变量（Variables）
+
+```less
+@width: 10px;
+@height: @width + 10px;
+
+.box{
+    width: @width;
+    height: @height;
+}
+```
+
+### 混合（Mixins）
+
+```less
+// 定义
+.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+// 使用
+#menu a {
+  color: #111;
+  .bordered();
+}
+
+.post a {
+  color: red;
+  .bordered();
+}
+```
+
+### 嵌套（Nesting）
+
+```less
+#header {
+  color: black;
+  .navigation {
+    font-size: 12px;
+  }
+  .logo {
+    width: 300px;
+  }
+}
+```

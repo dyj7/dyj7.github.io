@@ -2,7 +2,6 @@
 title: ES6
 date: 2022-01-12
 tags:
- - ES6
  - js
 categories:
  - js
