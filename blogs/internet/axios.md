@@ -7,7 +7,7 @@ categories:
  - internet
 ---
 
-## 介绍
+### 介绍
 
 - Axios 是一个基于 promise 网络请求库，作用于node.js 和浏览器中。在服务端它使用原生 node.js http 模块, 而在客户端 (浏览端) 则使用 XMLHttpRequests。
 
@@ -19,7 +19,7 @@ categories:
 - 拦截请求和响应
 - 转换请求和响应数据
 - 取消请求
-- 自动转换JSON数据
+- 自动转换JSON数据（将响应的 JSON 数据转换为 js 对象）
 - 客户端支持防御XSRF
 
 ### 基本用例
@@ -80,11 +80,12 @@ Promise.all([getUserAccount(), getUserPermissions()])
   });
 ```
 
-## Axios API
+### Axios API
 
 ### Axios 实例
 
 ```js
+// 对两个服务发送请求时用到（分别创建实例）
 // 创建一个实例
 const instance = axios.create({
   baseURL: 'https://some-domain.com/api/',
@@ -135,7 +136,7 @@ const instance = axios.create({
     ID: 12345
   },
 
-  // `paramsSerializer`是可选方法，主要用于序列化`params`
+  // `paramsSerializer`是可选方法，主要用于序列化`params` 用的较少
   // (e.g. https://www.npmjs.com/package/qs, http://api.jquery.com/jquery.param/)
   paramsSerializer: function (params) {
     return Qs.stringify(params, {arrayFormat: 'brackets'})
@@ -297,10 +298,13 @@ axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 ```
 
-### 拦截器
+### 拦截器（函数）
+
+- 当定义多个请求拦截器时，先定义后执行
+- 当定义多个响应拦截器时，先定义限制性
 
 ```js
-// 添加请求拦截器
+// 添加请求拦截器（config就是配置对象）
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     return config;
@@ -354,3 +358,43 @@ axios.get('/user/12345')
     console.log(error.toJSON());
   });
 ```
+
+### 取消请求
+
+```js
+// method 1
+const controller = new AbortController();
+
+axios.get('/foo/bar', {
+   signal: controller.signal
+}).then(function(response) {
+   //...
+});
+// 取消请求
+controller.abort()
+
+//method 2 多次发起请求，如果上次请求没完成则重新发送
+let cancel = null;
+btn.onclick = ()=>{
+  if(cancel !== null){
+    cancel();
+  }
+  axios({
+    method: 'GET',
+    cancelToken: new axios.CancelToken((cancelFunc)=>{
+        cancel = cancelFunc;
+    }),
+    url:'xxx'
+  }).then(response=>{
+     cancel = null;
+  })
+}
+
+// 取消请求原理
+var xml = new XMLHttpRequest();
+xml.abort();
+```
+
+### 其他
+
+- 响应报文四部分：响应行，响应头，空行，响应体

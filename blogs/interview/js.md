@@ -430,3 +430,26 @@ if (!Object.is) {
 
 - 转换为整数后再进行运算，运算后再转换为对应的小数
 - 将两个数相加的结果和右边相减和 Number.EPSILON 比较
+
+## 实现 promise.all
+
+```js
+function PromiseAll(promises){
+    return new Promise((resolve, reject)=>{
+        if(!Array.isArray(promises)){
+            throw new TypeError("promises must be an array")
+        }
+        let result = []
+        let count = 0
+        promises.forEach((promise, index) => {
+            promise.then((res)=>{
+                result[index] = res
+                count++
+                count === promises.length && resolve(result)
+            }, (err)=>{
+                reject(err)
+            })
+        })
+    })
+}
+```
