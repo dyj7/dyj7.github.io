@@ -394,7 +394,3 @@ btn.onclick = ()=>{
 var xml = new XMLHttpRequest();
 xml.abort();
 ```
-
-### 其他
-
-- 响应报文四部分：响应行，响应头，空行，响应体
