@@ -278,3 +278,48 @@ WeakMap的键名所指向的对象，不计入垃圾回收机制。
             }
         }
 ```
+
+
+## ES6模块化
+
+- 统一暴露
+
+```js
+//------ lib.js ------
+const sqrt = Math.sqrt;
+function square(x) {
+    return x * x;
+}
+function diag(x, y) {
+    return sqrt(square(x) + square(y));
+}
+export {sqrt, square, diag}
+//------ main.js ------
+import { square, diag } from 'lib';	
+```
+
+- 分别暴露
+
+```js
+//------ lib.js ------
+export const sqrt = Math.sqrt;
+export function square(x) {
+    return x * x;
+}
+export function diag(x, y) {
+    return sqrt(square(x) + square(y));
+}
+//------ main.js ------
+import { square, diag } from 'lib';	
+```
+
+- 默认暴露(一个js文件中只能有一个export default)
+
+```js
+//------ myFunc.js ------
+export default function () { ... };
+
+//------ main1.js ------
+import myFunc from 'myFunc';
+myFunc();
+```
