@@ -782,7 +782,7 @@ new Vue({
 
 - 使用插件：```import plugins from './plugins';Vue.use(plugins,options)```
 
-## nextTick
+### nextTick
 
 - Vue 在更新 DOM 时是异步执行的,只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。
 - 语法：```this.$nextTick(回调函数)```
@@ -794,6 +794,128 @@ this.$nextTick(function(){
   this.$refs.inputTitle.focus()
 })
 ```
+
+### vue脚手架配置代理
+
+#### 方法一（​在vue.config.js中添加配置）
+
+- 优点：配置简单，请求资源时直接发给前端（8080）即可。
+- 缺点：不能配置多个代理，不能灵活的控制请求是否走代理。
+- 工作方式：若按照上述配置代理，当请求了前端不存在的资源时，那么该请求会转发给服务器 （优先匹配前端资源）
+
+```js
+devServer:{
+  proxy:"http://localhost:5000"
+}
+```
+
+#### 方法二（在vue.config.js配置具体代理规则）
+
+- 优点：可以配置多个代理，且可以灵活的控制请求是否走代理。
+- 缺点：配置略微繁琐，请求资源时必须加前缀。
+
+```js
+module.exports = {
+	devServer: {
+      proxy: {
+      '/api1': {// 匹配所有以 '/api1'开头的请求路径：http://localhost:8080/api1/xxx
+        target: 'http://localhost:5000',// 代理目标的基础路径
+        changeOrigin: true,
+        pathRewrite: {'^/api1': ''} // 去掉 /api1 的影响，请求 http://localhost:5000/xxx
+      },
+      '/api2': {// 匹配所有以 '/api2'开头的请求路径
+        target: 'http://localhost:5001',// 代理目标的基础路径
+        changeOrigin: true,
+        pathRewrite: {'^/api2': ''}
+      }
+    }
+  }
+}
+/*
+   changeOrigin设置为true时，服务器收到的请求头中的host为：localhost:5000
+   changeOrigin设置为false时，服务器收到的请求头中的host为：localhost:8080
+   changeOrigin默认值为true
+*/
+```
+
+### 插槽
+
+- 默认插槽：
+
+```vue
+<!-- 父组件中： -->
+        <Category>
+            <div>html结构1</div>
+        </Category>
+<!-- 子组件中： -->
+        <template>
+            <div>
+                <!-- 定义插槽 -->
+                <slot>插槽默认内容...</slot>
+            </div>
+        </template>
+```
+
+- 具名插槽：
+
+```vue
+<!-- 父组件中： -->
+        <Category>
+            <template slot="center">
+            <div>html结构1</div>
+            </template>
+            <!-- 只有template 标签才能用 v-slot -->
+            <template v-slot:footer>
+                <div>html结构2</div>
+            </template>
+        </Category>
+<!-- 子组件中： -->
+        <template>
+            <div>
+                <!-- 定义插槽 -->
+                <slot name="center">插槽默认内容...</slot>
+                <slot name="footer">插槽默认内容...</slot>
+            </div>
+        </template>
+```
+
+- 作用域插槽：数据在组件的自身，但根据数据生成的结构需要组件的使用者来决定。（games数据在Category组件中，但使用数据所遍历出来的结构由App组件决定）
+
+    ```vue
+    <!-- 父组件中： -->
+        <Category>
+            <template scope="scopeData">
+                <!-- 生成的是ul列表 -->
+                <ul>
+                    <li v-for="g in scopeData.games" :key="g">{{g}}</li>
+                </ul>
+            </template>
+        </Category>
+
+        <Category>
+            <template slot-scope="scopeData">
+                <!-- 生成的是h4标题 -->
+                <h4 v-for="g in scopeData.games" :key="g">{{g}}</h4>
+            </template>
+        </Category>
+    <!-- 子组件中： -->
+            <template>
+                <div>
+                    <slot :games="games"></slot>
+                </div>
+            </template>
+            <script>
+                export default {
+                    name:'Category',
+                    //数据在子组件自身
+                    data() {
+                        return {
+                            games:['红色警戒','穿越火线','劲舞团','超级玛丽']
+                        }
+                    },
+                }
+            </script>
+    ```
 
 ## API
 
