@@ -19,16 +19,16 @@ import About from '../components/About'
 import Home from '../components/Home'
 //创建并暴露一个路由器
 export default new VueRouter({
-	routes:[
-		{
-			path:'/about',
-			component:About
-		},
-		{
-			path:'/home',
-			component:Home
-		}
-	]
+ routes:[
+  {
+   path:'/about',
+   component:About
+  },
+  {
+   path:'/home',
+   component:Home
+  }
+ ]
 })
 // main.js
 import Vue from 'vue'
@@ -40,9 +40,9 @@ import router from './router'
 //应用插件
 Vue.use(VueRouter)
 new Vue({
-	el:'#app',
-	render: h => h(App),
-	router:router
+ el:'#app',
+ render: h => h(App),
+ router:router
 })
 ```
 
@@ -167,24 +167,24 @@ $route.query.title
 
    ```js
    {
-   	path:'/home',
-   	component:Home,
-   	children:[
-   		{
-   			path:'news',
-   			component:News
-   		},
-   		{
-   			component:Message,
-   			children:[
-   				{
-   					name:'xiangqing',
-   					path:'detail/:id/:title', //使用占位符声明接收params参数
-   					component:Detail
-   				}
-   			]
-   		}
-   	]
+    path:'/home',
+    component:Home,
+    children:[
+     {
+      path:'news',
+      component:News
+     },
+     {
+      component:Message,
+      children:[
+       {
+        name:'xiangqing',
+        path:'detail/:id/:title', //使用占位符声明接收params参数
+        component:Detail
+       }
+      ]
+     }
+    ]
    }
    ```
 
@@ -213,4 +213,201 @@ $route.query.title
 ```js
 $route.params.id
 $route.params.title
+```
+
+## 路由的 props 配置
+
+```js
+{
+ name:'xiangqing',
+ path:'detail/:id',
+ component:Detail,
+
+ //第一种写法：props值为对象，该对象中所有的key-value的组合最终都会通过props传给Detail组件
+ props:{a:900}
+
+ //第二种写法：props值为布尔值，布尔值为true，则把路由收到的所有params参数通过props传给Detail组件
+ props:true
+ 
+ //第三种写法：props值为函数，该函数返回的对象中每一组key-value都会通过props传给Detail组件
+ props($route){
+  return {
+   id:$route.query.id,
+   title:$route.query.title
+  }
+ }
+}
+// Detail
+export default{
+  props:['id','title'],
+}
+```
+
+### `<router-link>`的replace属性
+
+- 作用：控制路由跳转时操作浏览器历史记录的模式
+- 浏览器的历史记录有两种写入方式：分别为`push`和`replace`，`push`是追加历史记录，`replace`是替换当前记录。路由跳转时候默认为```push```
+- 如何开启`replace`模式：`<router-link replace to='xx'>News</router-link>`
+
+## 编程式路由导航
+
+   ```js
+   //$router的两个API
+   this.$router.push({
+    name:'xiangqing',
+     params:{
+      id:xxx,
+      title:xxx
+     }
+   })
+   
+   this.$router.replace({
+    name:'xiangqing',
+     params:{
+      id:xxx,
+      title:xxx
+     }
+   })
+   this.$router.forward() //前进
+   this.$router.back() //后退
+   this.$router.go(n) //前进/后退n
+   ```
+
+## 缓存路由组件
+
+- 让不展示的路由组件保持挂载，不被销毁。
+
+```html
+<!-- 不写include默认会缓存所有组件，:include="['a','b']"，include内写的是组件的name -->
+<keep-alive include="News"> 
+ <router-view></router-view>
+</keep-alive>
+```
+
+### 两个新的生命周期钩子
+
+- keep-alive 缓存的组件所独有的两个钩子，用于捕获路由组件的激活状态。
+
+```js
+activated(){
+    console.log('组件激活')
+},
+deactivated(){
+   console.log('组件失活')
+}
+```
+
+## 路由守卫（对路由进行权限控制）
+
+### 全局路由守卫
+
+ ```js
+ const router =  new VueRouter({
+     routes:[
+        {
+           path:'/set',
+           component:Set,
+           meta:{isAuth:true,title:'设置'} // meta 里防止路由元信息
+        },
+        {
+            name:'zhuye',
+            path:'/home',
+            component:Home,
+            meta:{title:'主页'},
+        }
+     ]
+ })
+ //全局前置守卫：初始化时执行、每次路由切换前执行
+ router.beforeEach((to,from,next)=>{
+  console.log('beforeEach',to,from)
+  if(to.meta.isAuth){ //判断当前路由是否需要进行权限控制
+   if(localStorage.getItem('role') === 'admin'){ //权限控制的具体规则
+    next() //放行
+   }else{
+    alert('暂无权限查看')
+    // next({name:'guanyu'})
+   }
+  }else{
+   next() //放行
+  }
+ })
+ 
+ //全局后置守卫：初始化时执行、每次路由切换后执行
+ router.afterEach((to,from)=>{
+  console.log('afterEach',to,from)
+  if(to.meta.title){ 
+   document.title = to.meta.title //修改网页的title
+  }else{
+   document.title = 'vue_test'
+  }
+ })
+ export default router
+ ```
+
+### 独享路由守卫
+
+```js
+{
+ path:'/home',
+ component:Home,
+ meta:{title:'主页'},
+ children:[
+  {
+   path:'news',
+   component:News,
+   meta:{isAuth:true,title:'新闻'},
+   beforeEnter: (to, from, next) => {
+    console.log('独享路由守卫',to,from)
+    if(to.meta.isAuth){ //判断是否需要鉴权
+     if(localStorage.getItem('role')==='admin'){
+      next()
+     }else{
+      alert('无权限查看！')
+     }
+    }else{
+     next()
+    }
+   }
+  },
+ ]
+}
+```
+
+### 组件内守卫
+
+```js
+//进入守卫：通过路由规则，进入该组件时被调用
+beforeRouteEnter (to, from, next) {
+},
+//离开守卫：通过路由规则，离开该组件时被调用
+beforeRouteLeave (to, from, next) {
+}
+```
+
+## 路由器的两种工作模式（默认 hash）
+
+- 对于一个url来说，#及其后面的内容就是hash值。
+- hash值不会包含在 HTTP 请求中，即：hash值不会带给服务器。
+- hash模式：
+  - 地址中永远带着#号，不美观 。
+  - 若以后将地址通过第三方手机app分享，若app校验严格，则地址会被标记为不合法。
+  - 兼容性较好。
+- history模式：
+  - 地址干净，美观 。
+  - 兼容性和hash模式相比略差。
+  - 解决刷新页面会直接发网络请求，应用部署需要后端人员支持，解决刷新页面服务端404的问题。
+
+- 更换路由模式
+
+```js
+ const router =  new VueRouter({
+     mode: 'hsitory', // 默认为 hash
+     routes:[
+        {
+           path:'/set',
+           component:Set,
+           meta:{isAuth:true,title:'设置'} // meta 里防止路由元信息
+        },
+     ]
+ })
 ```
