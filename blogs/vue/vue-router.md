@@ -1,10 +1,11 @@
+---
 title: Vue Router
-date: 2022-04-01
+date: 2021-05-12
 tags:
-
-- vue
+ - vue
 categories:
-- vue
+ - vue
+---
 
 ## 基本使用
 

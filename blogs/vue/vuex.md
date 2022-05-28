@@ -1,13 +1,11 @@
 ---
-title: Vuex
+title: VueX
 date: 2022-04-01
 tags:
  - vue
 categories:
  - vue
 ---
-
-
 
 ## 概念
 
@@ -19,7 +17,7 @@ categories:
 - 视图，以声明方式将状态映射到视图
 - 操作，响应在视图上的用户输入导致的状态变化
 
-<image src='./images/vuex-1.png'>
+<img src='./images/vuex-1.png'>
 
 ## 基本使用
 
@@ -78,9 +76,9 @@ new Vue({
 
    //创建vm
    new Vue({
-   	el:'#app',
-   	render: h => h(App),
-   	store
+    el:'#app',
+    render: h => h(App),
+    store
    })
    ```
 
