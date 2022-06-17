@@ -2,9 +2,9 @@
 title: Web 安全(白帽子讲Web安全)
 date: 2021-01-01
 tags:
- - others
+ - frontend
 categories:
- - others
+ - frontend
 ---
 
 ## 安全三要素
