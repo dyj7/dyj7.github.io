@@ -147,3 +147,114 @@ console.log = function(d){
 ```
 
 - stderr是标准错误流，用来打印错误信息 `process.stderr.write('error');`
+
+## fs 模块
+
+### 读取文件
+
+- fs.readFile() 和 fs.readFileSync() 都会在返回数据之前将文件的全部内容读取到内存中。
+- 大文件会对内存的消耗和程序执行的速度产生重大的影响。
+
+```js
+const fs = require('fs')
+
+fs.readFile('/Users/joe/test.txt', 'utf8' , (err, data) => {
+  if (err) {
+    console.error(err)
+    return
+  }
+  console.log(data)
+})
+// 或
+try {
+  const data = fs.readFileSync('/Users/joe/test.txt', 'utf8')
+  console.log(data)
+} catch (err) {
+  console.error(err)
+}
+```
+
+### 写入文件
+
+```js
+const fs = require('fs')
+
+const content = '一些内容'
+
+fs.writeFile('/Users/joe/test.txt', content, err => {
+  if (err) {
+    console.error(err)
+    return
+  }
+  //文件写入成功(若文件之前存在则会fugai)。
+})
+// 或
+try {
+  const data = fs.writeFileSync('/Users/joe/test.txt', content)
+  //文件写入成功。
+} catch (err) {
+  console.error(err)
+}
+
+```
+
+## path 路径模块
+
+```js
+const path = require('path')
+
+const notes = '/users/joe/notes.txt'
+
+// dirname: 获取文件的父文件夹。
+path.dirname(notes) // /users/joe
+
+// basename: 获取文件名部分。
+path.basename(notes) // notes.txt
+path.basename(notes, path.extname(notes)) //notes
+
+// extname: 获取文件的扩展名。
+path.extname(notes) // .txt
+
+// 当前文件所处目录
+console.log(__dirname)
+
+// path.join() ： 连接路径的两个或多个部分
+path.join('/', 'users/a/', '../', 'notes.txt') // '/users/notes.txt'
+path.join(__dirname, '/file.txt')
+```
+
+## http模块
+
+- ip 地址：互联网上每天计算机的唯一地址
+- 域名和域名服务器：ip 地址和域名是一一对应的，对应关系存放在域名服务器（DNS）中，域名服务器就是提供 ip 地址和域名地址之间的转换服务的服务器（127.0.0.1对应的域名就是localhost）
+- 端口号：在一台电脑可运行多个 web 服务，每个服务都对应一个端口号，客服端发起的网络请求通过端口号可准确交给对应 web 服务进行处理(每个端口只能对应一个 web 服务，URL中的80端口可省略)
+  <img src="./imgs/node-2.png" />
+
+```js
+const http = require('http')
+// http 属性
+http.METHODS // 列出 HTTP 所以方法
+http.STATUS_CODES // 列出 HTTP 所有状态代码及其描述
+http.globalAgent // 指向 Agent 对象的全局实例，该实例是 http.Agent 类的实例。用于管理 HTTP 客户端连接的持久性和复用，它是 Node.js HTTP 网络的关键组件。
+```
+
+### 创建 web 服务器
+
+- 导入 http 模块
+- 创建 web 服务实例
+- 为服务器实例绑定 request 时间，监听客服端请求
+- 启动服务器
+
+```js
+const http = require('http')
+const server = http.createServer()
+server.on('request', (req, res) => {
+  // 客户端发请求就会触发 request 时间，从而调用此回调函数
+  // req请求对象: 访问与客户端相关的数据或属性，req.url:客户端请求的url地址，req.method:客户端请求类型
+  // res响应对象：访问与服务器相关的数据或属性，res.end(str):向客户端发送指定内容并结束这次请求
+  res.setHeader('Content-Type','text/html; charset=utf-8');// 设置响应头，解决中文乱码问题
+} )
+server.listen(8080, () => {
+  // 在8080端口启动服务器：127.0.0.1:8080
+})
+```
