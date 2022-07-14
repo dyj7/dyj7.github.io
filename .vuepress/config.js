@@ -45,6 +45,10 @@ module.exports = {
             "link": "https://www.google.com/intl/zh-CN/gmail/about/",
             "icon": "reco-mail"
           },
+          {
+            "text": " ",
+            "link": "/me/"
+          }
         ]
       }
     ],
