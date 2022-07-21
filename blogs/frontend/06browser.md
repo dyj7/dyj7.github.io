@@ -9,6 +9,8 @@ categories:
 
 ## 从输入URL到页面加载的全过程
 
+URL解析、DNS 查询、TCP 连接、HTTP 请求、响应请求、页面渲染
+
 <img src="./images/06-1.png">
 
 - 在浏览器中输入URL

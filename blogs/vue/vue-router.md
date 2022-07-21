@@ -393,10 +393,73 @@ beforeRouteLeave (to, from, next) {
   - 地址中永远带着#号，不美观 。
   - 若以后将地址通过第三方手机app分享，若app校验严格，则地址会被标记为不合法。
   - 兼容性较好。
+  - 核心通过监听url中的hash来进行路由跳转。
+  
+    ```js
+    // 定义 Router  
+    class Router {  
+      constructor () {  
+          this.routes = {}; // 存放路由path及callback  
+          this.currentUrl = '';  
+
+          // 监听路由change调用相对应的路由回调  
+          window.addEventListener('load', this.refresh, false);  
+          window.addEventListener('hashchange', this.refresh, false);  
+      }  
+      route(path, callback){  
+          this.routes[path] = callback;  
+      }  
+      push(path) {  
+          this.routes[path] && this.routes[path]()  
+        }
+  }  
+  // 使用 router  
+  window.miniRouter = new Router();  
+  miniRouter.route('/', () => console.log('page1'))  
+  miniRouter.route('/page2', () => console.log('page2'))  
+
+  miniRouter.push('/') // page1  
+  miniRouter.push('/page2') // page2  
+  ```
+
 - history模式：
   - 地址干净，美观 。
   - 兼容性和hash模式相比略差。
   - 解决刷新页面会直接发网络请求，应用部署需要后端人员支持，解决刷新页面服务端404的问题。
+  - history 模式核心借用 HTML5 history api
+
+  ```js
+    // 定义 Router  
+  class Router {  
+      constructor () {  
+          this.routes = {};  
+          this.listerPopState()  
+      }  
+      init(path) {  
+          history.replaceState({path: path}, null, path);  
+          this.routes[path] && this.routes[path]();  
+      }  
+      route(path, callback){  
+          this.routes[path] = callback;  
+      }  
+      push(path) {  
+          history.pushState({path: path}, null, path);  
+          this.routes[path] && this.routes[path]();  
+      }  
+      listerPopState () {  
+          window.addEventListener('popstate' , e => {  
+              const path = e.state && e.state.path;  
+              this.routers[path] && this.routers[path]()  
+          })  
+      }  
+  }  
+  // 使用 Router  
+  window.miniRouter = new Router();  
+  miniRouter.route('/', ()=> console.log('page1'))  
+  miniRouter.route('/page2', ()=> console.log('page2'))  
+  // 跳转  
+  miniRouter.push('/page2')  // page2  
+  ```
 
 - 更换路由模式
 

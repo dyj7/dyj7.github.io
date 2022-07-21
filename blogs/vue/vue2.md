@@ -517,6 +517,7 @@ Vue.filter('mySlice',function(value){
     - 销毁后借助Vue开发者工具看不到任何信息。
     - 销毁后自定义事件会失效，但原生DOM事件依然有效。
     - 一般不会在beforeDestroy操作数据，因为即便操作数据，也不会再触发更新流程了。
+- 数据请求在created和mouted的区别：created是在组件实例一旦创建完成的时候立刻调用，这时候页面dom节点并未生成；mounted是在页面dom节点渲染完毕之后就立刻执行的。触发时机上created是比mounted要更早的，两者的相同点：都能拿到实例对象的属性和方法。 讨论这个问题本质就是触发的时机，放在mounted中的请求有可能导致页面闪动（因为此时页面dom结构已经生成），但如果在页面加载前完成请求，则不会出现此情况。
 
 <img src="./images/vue2-4.png"/>
 
@@ -740,6 +741,9 @@ new Vue({
     ```js
     // mixin.js
     export const hunhe = {
+     data(){
+        mixinData: {},
+     },
      methods: {
       showName(){
        alert(this.name)
