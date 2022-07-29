@@ -58,3 +58,44 @@ qs.stringify({ a: ['b', 'c'] }, { arrayFormat: 'repeat' }) // 'a=b&a=c'
 qs.stringify({ a: { b: 'c' } },{ allowDots: true }) //a.b=c
 qs.stringify({ a: { b: 'c' } }) // a%5Bb%5D=c
 ```
+
+## chalk
+
+chalk 包的作用是修改控制台中字符串的样式
+
+- 字体样式(加粗、隐藏等)
+- 字体颜色
+- 背景颜色
+
+```js
+const chalk = require('chalk');
+console.log(chalk.red.bold.bgWhite('Hello World'));
+console.log(chalk.rgb(255,0,0).bold.bgRgb(255,255,255)('Hello World'));
+console.log(chalk`{red.bold.bgWhite Hello }World`);
+```
+
+<img src="./images/01-1.png">
+
+## log-symbols
+
+- 输出 info,success,warning,error 四种标识符
+
+```js
+const symbols = require('log-symbols')
+console.log(symbols.info,symbols.success,symbols.warning,symbols.error)
+```
+
+<img src="./images/01-2.png">
+
+## ora
+
+ora 包用于显示加载中的效果，类似于页面的 loading 效果。
+
+```js
+import ora from 'ora';
+const spinner = ora('Loading unicorns').start();
+setTimeout(() => {
+	spinner.color = 'yellow';
+	spinner.text = 'Loading rainbows';
+}, 1000);
+```
