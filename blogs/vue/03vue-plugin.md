@@ -2,9 +2,9 @@
 title: Vue 插件
 date: 2022-07-21
 tags:
- - frontend
+ - vue
 categories:
- - frontend
+ - vue
 ---
 
 - 插件通常会为 Vue 添加全局功能

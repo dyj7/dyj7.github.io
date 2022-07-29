@@ -2,9 +2,9 @@
 title: git 常用命令
 date: 2021-12-30
 tags:
- - git
+ - frontend
 categories:
- - git
+ - frontend
 ---
 
 ```bash

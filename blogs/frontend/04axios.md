@@ -2,9 +2,9 @@
 title: Axios
 date: 2022-03-30
 tags:
- - internet
+ - frontend
 categories:
- - internet
+ - frontend
 ---
 
 ### 介绍

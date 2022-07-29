@@ -2,9 +2,9 @@
 title: git
 date: 2021-12-30
 tags:
- - git
+ - frontend
 categories:
- - git
+ - frontend
 ---
 
 ## 版本控制是一种记录一个或若干文件内容变化，以便将来查阅特定版本修订情况的系统。

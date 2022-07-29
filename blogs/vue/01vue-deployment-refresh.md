@@ -2,9 +2,9 @@
 title: Vue 部署后强制客户端刷新获取最新的代码资源
 date: 2022-07-14
 tags:
- - frontend
+ - vue
 categories:
- - frontend
+ - vue
 ---
 
 ### 背景：项目修复了bug；但是客户端没有刷新浏览器；导致还是有bug的资源代码；出现了问题
@@ -20,7 +20,7 @@ categories:
     ```
 
     - 放置最新的版本号json （version.json）；放到public文件中放置webpack进行打包编译；并且维护一个辅助字段 must 代表是否必须强制刷新；当前默认 bug 级别才会强制刷新；优化和新功能不用强制刷新
-    <img src="./images/04-1.png">
+    <img src="./images/01-1.png">
 
 - 获取对比文件
     - 获取两个版本号

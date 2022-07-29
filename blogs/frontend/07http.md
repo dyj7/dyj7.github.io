@@ -2,16 +2,16 @@
 title: Http
 date: 2022-04-01
 tags:
- - internet
+ - frontend
 categories:
- - internet
+ - frontend
 ---
 
 ### HTTP报文的组成成分
 
 - 请求报文: 请求行(http方法、页面地址、http协议、http版本)、请求头、空行、请求体
   <img src='./images/img-2.png'/>
-- 响应报文: 状态行、响应头、空行、响应体 
+- 响应报文: 状态行、响应头、空行、响应体
   <img src='./images/img-3.png'/>
 
 #### Request Header:

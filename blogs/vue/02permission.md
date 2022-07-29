@@ -2,9 +2,9 @@
 title: Vue 权限管理
 date: 2022-07-21
 tags:
- - frontend
+ - vue
 categories:
- - frontend
+ - vue
 ---
 
 - 前端权限归根结底是请求的发起权，请求的发起可能有下面两种形式触发
