@@ -27,11 +27,6 @@ module.exports = {
         "icon": "reco-home"
       },
       {
-        "text": "Essay",
-        "icon": "reco-message",
-        "link": "/docs/"
-      },
-      {
         "text": "Contact",
         "icon": "reco-message",
         "items": [
