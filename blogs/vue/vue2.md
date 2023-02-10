@@ -73,7 +73,7 @@ categories:
 
 ```js
 <div id='root'>
-    // 单向绑定，数据又 data 流向页面
+    // 单向绑定，数据由 data 流向页面
     <input v-bind:value="name"/>
     // 双向绑定，v-modal 只能用于表单类（输入类）元素上，v-modal:value == v-modal
     <input v-modal:value="name"/>
@@ -90,7 +90,7 @@ categories:
 </script>
 ```
 
-### el 与 data  的两种写法
+### el 与 data 的两种写法
 
 ```js
 const vm = new Vue({
@@ -316,8 +316,6 @@ firstName(val){
 },
 }
 ```
-
-#### 绑定样式
 
 ### 绑定样式
 

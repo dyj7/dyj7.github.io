@@ -46,6 +46,27 @@ categories:
 - undefined 代表的含义是未定义，null 代表的含义是空对象。一般变量声明了但还没有定义的时候会返回 undefined，null,主要用于赋值给一些可能会返回对象的变量，作为初始化。
 - typeof undefined -> 'undefined'; typeof null -> 'object'
 
+## 数据类型检测的方式
+
+- typeof (数组、对象、null 都会被判断为 object)
+<img src='./imgs/js-2.png'>
+
+- instanceof (instanceof 只能正确判断引用数据类型，而不能判断基本数据类型。instanceof 运算符可以用来测试一个对象在其原型链中是否存在一个构造函数的 prototype 属性)
+<img src='./imgs/js-3.png'>
+
+- Object.prototype.toString.call()
+<img src='./imgs/js-4.png'>
+
+## JavaScript 中的包装类型
+
+- 在 JavaScript 中，基本类型是没有属性和方法的，但是为了便于操作基本类型的值，在调用基本类型的属性或方法时 JavaScript 会在后台隐式地将基本类型的值转换为对象
+- 在访问'abc'.length 时， JavaScript 将'abc' 在后台转换成String('abc')，然后再访问其length 属性。
+
+## 判断一个对象是空对象
+
+- `JSON.stringify(obj) === '{}'`
+- `Object.keys(obj).length === 0`
+
 ## 原型，原型链
 
 - 在 js 中我们是使用构造函数来新建一个对象的，每一个构造函数的内部都有一个 prototype 属性值，这个属性值是一个对象，这个对象包含了可以由该构造函数的所有实例共享的属性和方法。当使用构造函数新建一个对象后，在这个对象的内部将包含一个指针，这个指针指向构造函数的 prototype 属性对应的值，在 ES5 中这个指针被称为对象的原型。一般来说我们是不应该能够获取到这个值的，但是现在浏览器中都实现了 __proto__ 属性来让我们访问这个属性，但是最好不要使用这个属性，因为它不是规范中规定的。ES5 中新增了一个 Object.getPrototypeOf() 方法，我们可以通过这个方法来获取对象的原型。
