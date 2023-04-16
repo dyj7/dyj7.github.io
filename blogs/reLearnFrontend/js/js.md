@@ -148,3 +148,5 @@ objectFactory(构造函数, 初始化参数);
 - 数组截取办法 slice()，用于截取数组中的一部分返回，不影响原数组。
 - 数组插入方法 splice()，影响原数组查找特定项的索引的方法，indexOf() 和 lastIndexOf() 迭代方法 every()、some()、filter()、map() 和 forEach() 方法
 - 数组归并方法 reduce() 和 reduceRight() 方法
+
+<!-- commit test -->
