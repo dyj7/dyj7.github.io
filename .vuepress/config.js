@@ -47,13 +47,13 @@ module.exports = {
         ]
       }
     ],
-    "sidebar": {
-      "/docs/": [
-        "",
-        "Stray-Birds.md",
-        "Autumn-Day.md"
-      ],
-    },
+    // "sidebar": {
+    //   "/docs/": [
+    //     "",
+    //     "Stray-Birds.md",
+    //     "Autumn-Day.md"
+    //   ],
+    // },
     "type": "blog",
     "blogConfig": {
       "category": {

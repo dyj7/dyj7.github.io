@@ -37,7 +37,7 @@ categories:
 
 - 如果没有defer或async属性，浏览器会立即加载并执行相应的脚本。它不会等待后续加载的文档元素，读取到就会开始加载和执行，这样就阻塞了后续文档的加载。
 
-<img src="../images/html-1.png"/>
+<img src="./images/html-1.png"/>
 
 - defer 和 async属性都是去异步加载外部的JS脚本文件，它们都不会阻塞页面的解析
 

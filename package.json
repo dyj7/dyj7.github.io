@@ -4,8 +4,8 @@
   "author": "reco_luan",
   "license": "MIT",
   "scripts": {
-    "dev": "vuepress dev . --open --host \"localhost\"",
-    "build": "vuepress build ."
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress dev . --open --host \"localhost\"",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress build ."
   },
   "devDependencies": {
     "vuepress": "1.8.2",

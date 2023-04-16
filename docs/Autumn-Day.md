@@ -2,7 +2,7 @@
 title: Autumn Day
 date: 2022-02-22
 tags:
- - essay
+#  - essay
 ---
 
 From [Rainer Maria Rilke](https://en.wikipedia.org/wiki/Rainer_Maria_Rilke)

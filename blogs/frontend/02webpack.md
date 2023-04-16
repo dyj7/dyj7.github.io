@@ -31,6 +31,11 @@ categories:
 
 插件(Plugins)可以用于执行范围更广的任务。插件的范围包括，从打包优化和压缩， 一直到重新定义环境中的变量等。
 
+## loader plugin 区别
+
+- loader，是一个转换器，将A文件进行编译成B文件，比如：将A.less转换为A.css，单纯的文件转换过程。
+- plugin 是一个扩展器，它丰富了webpack本身，针对是loader结束后，webpack打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听webpack打包过程中的某些节点，执行广泛的任务(打包优化、文件管理、环境注入...)
+
 ### Mode
 
 模式(Mode)指示 webpack 使用相应模式的配置(默认值设置为 production)。
@@ -83,6 +88,10 @@ module.exports = {
   // loader的配置
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
       {
         test: /\.css$/,
         use: [
@@ -143,7 +152,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       // 复制 './src/index.html' 文件，并自动引入打包输出的所有资源（JS/CSS）
       template: './src/index.html'
-    })
+    }),
+    new webpack.DefinePlugin({ // 将代码中的变量替换为其他值或表达式
+      'process.env': JSON.stringify({
+        ...config.processEnv,
+        VERSION: JSON.stringify('5fa3b9'),
+      }),
+    }),
+    new VueLoaderPlugin(), // 将定义过的其它规则复制并应用到 .vue 文件里相应语言的块。例如，如果有一条匹配 /\.js$/ 的规则，那么它会应用到 .vue 文件里的 <script> 块。
   ],
   // 模式
   mode: 'development', // 开发模式, mode: 'production' //生产模式

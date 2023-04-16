@@ -2,7 +2,7 @@
 title: Stray Birds
 date: 2022-02-10
 tags:
- - essay
+#  - essay
 ---
 
 <p style="text-align:center">1</p>
